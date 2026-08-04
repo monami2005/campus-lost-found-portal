@@ -1,0 +1,1 @@
+{"version":2,"defects":{"Tests\\Feature\\HomePageTest::test_home_page_is_accessible":7,"Tests\\Feature\\DatabaseSeederTest::test_database_seeder_can_run":8},"times":{"Tests\\Feature\\HomePageTest::test_home_page_is_accessible":0.135,"Tests\\Feature\\DatabaseSeederTest::test_database_seeder_can_run":4.83}}
