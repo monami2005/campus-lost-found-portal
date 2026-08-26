@@ -1,0 +1,38 @@
+{
+    "name": "campus/lost-found-portal",
+    "description": "Campus Lost & Found Portal",
+    "type": "project",
+    "require": {
+        "php": "^8.3",
+        "laravel/framework": "^12.0",
+        "laravel/breeze": "^2.0",
+        "laravel/sanctum": "^4.0",
+        "laravel/tinker": "^2.0"
+    },
+    "require-dev": {
+        "fakerphp/faker": "^1.9",
+        "laravel/pint": "^1.0",
+        "mockery/mockery": "^1.6",
+        "nunomaduro/collision": "^8.0",
+        "phpunit/phpunit": "^11.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/",
+            "Database\\Seeders\\": "database/seeders/",
+            "Database\\Factories\\": "database/factories/"
+        }
+    },
+    "scripts": {
+        "post-autoload-dump": [
+            "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump"
+        ]
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
+}
