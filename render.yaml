@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: campus-lost-found-portal
+    runtime: docker
+    plan: free
+    dockerfilePath: ./Dockerfile
+    envVars:
+      - key: APP_ENV
+        value: production
