@@ -1,4 +1,4 @@
-FROM php:8.3-apache
+FROM php:8.4-apache
 
 # 1. Install system dependencies and PHP extensions required by Laravel
 RUN apt-get update && apt-get install -y \
