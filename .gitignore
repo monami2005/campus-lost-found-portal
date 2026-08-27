@@ -20,3 +20,10 @@ composer.phar
 *.sqlite-journal
 Thumbs.db
 .DS_Store
+
+# Laravel Cache Files
+/bootstrap/cache/*.php
+
+
+# Laravel Compiled Views
+/storage/framework/views/*.php
