@@ -24,6 +24,9 @@ Thumbs.db
 # Laravel Cache Files
 /bootstrap/cache/*.php
 
+<<<<<<< ours
 
 # Laravel Compiled Views
 /storage/framework/views/*.php
+=======
+>>>>>>> theirs
