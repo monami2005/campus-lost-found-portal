@@ -6,6 +6,8 @@ use App\Models\Claim;
 use App\Models\Item;
 use App\Models\Notification;
 use App\Models\User;
+use App\Models\Category;
+use App\Models\Report;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 
@@ -13,7 +15,9 @@ class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
-        // Admin
+        // =========================
+        // ADMIN
+        // =========================
         $admin = User::firstOrCreate(
             ['email' => 'admin@campus.edu'],
             [
@@ -28,7 +32,9 @@ class DatabaseSeeder extends Seeder
             ]
         );
 
-        // Student 1
+        // =========================
+        // STUDENT 1
+        // =========================
         $student = User::firstOrCreate(
             ['email' => 'student1@campus.edu'],
             [
@@ -43,28 +49,65 @@ class DatabaseSeeder extends Seeder
             ]
         );
 
-        // More students
-        User::factory(15)->create(['role' => 'student', 'status' => 'active']);
+        // =========================
+        // MORE STUDENTS
+        // =========================
+        User::factory(15)->create([
+            'role' => 'student',
+            'status' => 'active',
+        ]);
 
-        // Categories
-        $categories = ['Electronics', 'Mobile', 'Laptop', 'Wallet', 'Bag', 'Books', 'Documents', 'Keys', 'Watch', 'Clothes', 'ID Card', 'Jewelry', 'Other'];
+        // =========================
+        // CATEGORIES
+        // =========================
+        $categories = [
+            'Electronics',
+            'Mobile',
+            'Laptop',
+            'Wallet',
+            'Bag',
+            'Books',
+            'Documents',
+            'Keys',
+            'Watch',
+            'Clothes',
+            'ID Card',
+            'Jewelry',
+            'Other'
+        ];
+
         foreach ($categories as $cat) {
-            \App\Models\Category::firstOrCreate(['name' => $cat], ['description' => "Category for $cat"]);
+            Category::firstOrCreate(
+                ['name' => $cat],
+                ['description' => "Category for $cat"]
+            );
         }
 
-        $categoryIds = \App\Models\Category::pluck('id')->toArray();
-        $studentIds = User::where('role', 'student')->pluck('id')->toArray();
+        // Get category IDs
+        $categoryIds = Category::pluck('id')->toArray();
 
-        // Items
+        // Get student IDs
+        $studentIds = User::where('role', 'student')
+            ->pluck('id')
+            ->toArray();
+
+        // =========================
+        // LOST ITEMS
+        // =========================
         for ($i = 0; $i < 35; $i++) {
+
             Item::factory()->create([
                 'type' => 'lost',
-                'category_id' => $categories[array_rand($categories)] ? \App\Models\Category::where('name', $categories[array_rand($categories)])->first()->id : $categoryIds[array_rand($categoryIds)],
+                'category_id' => $categoryIds[array_rand($categoryIds)],
                 'user_id' => $studentIds[array_rand($studentIds)],
             ]);
         }
 
+        // =========================
+        // FOUND ITEMS
+        // =========================
         for ($i = 0; $i < 35; $i++) {
+
             Item::factory()->create([
                 'type' => 'found',
                 'category_id' => $categoryIds[array_rand($categoryIds)],
@@ -72,31 +115,46 @@ class DatabaseSeeder extends Seeder
             ]);
         }
 
+        // =========================
+        // GET ITEM IDS
+        // =========================
         $itemIds = Item::pluck('id')->toArray();
 
-        // Claims
+        // =========================
+        // CLAIMS
+        // =========================
         for ($i = 0; $i < 20; $i++) {
+
             Claim::factory()->create([
                 'item_id' => $itemIds[array_rand($itemIds)],
                 'user_id' => $studentIds[array_rand($studentIds)],
             ]);
         }
 
-        // Reports
+        // =========================
+        // REPORTS
+        // =========================
         for ($i = 0; $i < 10; $i++) {
-            \App\Models\Report::factory()->create([
+
+            Report::factory()->create([
                 'item_id' => $itemIds[array_rand($itemIds)],
                 'user_id' => $studentIds[array_rand($studentIds)],
             ]);
         }
 
-        // Notifications
+        // =========================
+        // NOTIFICATIONS
+        // =========================
         for ($i = 0; $i < 30; $i++) {
+
             Notification::factory()->create([
                 'user_id' => $studentIds[array_rand($studentIds)],
             ]);
         }
-        
+
+        // =========================
+        // ADMIN NOTIFICATION
+        // =========================
         Notification::create([
             'user_id' => $admin->id,
             'title' => 'Welcome to the portal',
