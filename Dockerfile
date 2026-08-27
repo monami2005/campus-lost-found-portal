@@ -36,6 +36,9 @@ COPY . .
 # 7. Install production composer dependencies
 RUN composer install --no-dev --optimize-autoloader --no-interaction --no-scripts
 
+# Regenerate optimized classmap for production
+RUN composer dump-autoload --no-dev --optimize
+
 # 8. Set up permissions for Laravel writable directories
 RUN mkdir -p \
     storage/framework/cache \

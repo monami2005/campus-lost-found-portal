@@ -21,7 +21,7 @@ class ItemFactory extends Factory
             'user_id' => \App\Models\User::factory(),
             'title' => fake()->sentence(3),
             'description' => fake()->paragraph(),
-            'category_id' => \App\Models\Category::factory(),
+            'category_id' => \App\Models\Category::inRandomOrder()->first()?->id ?? \App\Models\Category::factory(),
             'location' => fake()->address(),
             'date' => fake()->date(),
             'status' => fake()->randomElement(['pending', 'claimed', 'resolved']),

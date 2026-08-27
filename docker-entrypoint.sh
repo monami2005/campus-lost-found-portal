@@ -4,8 +4,8 @@ set -e
 # 1. Dynamically configure Apache port to match the $PORT env var (default: 80)
 if [ -n "$PORT" ]; then
     echo "Configuring Apache to listen on port $PORT..."
-    sed -i "s/Listen 80/Listen $PORT/g" /etc/apache2/ports.conf
-    sed -i "s/<VirtualHost \*:80>/<VirtualHost *:$PORT>/g" /etc/apache2/sites-available/000-default.conf
+    sed -i "s/Listen [0-9]*/Listen $PORT/g" /etc/apache2/ports.conf
+    sed -i "s/<VirtualHost \*:[0-9]*>/<VirtualHost *:$PORT>/g" /etc/apache2/sites-available/000-default.conf
 fi
 
 # 2. Setup SQLite database if configured
@@ -61,8 +61,8 @@ php artisan view:cache
 
 # 7. Ensure permissions are correct on runtime directories
 echo "Setting correct permissions..."
-chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
-chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
+chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache /var/www/html/database
+chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache /var/www/html/database
 
 # 8. Start Apache
 echo "Starting Apache..."
