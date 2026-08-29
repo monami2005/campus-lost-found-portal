@@ -6,6 +6,7 @@ use App\Models\ActivityLog;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules;
 
 class ProfileController extends Controller
@@ -21,7 +22,13 @@ class ProfileController extends Controller
 
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', Rules::unique('users')->ignore($user->id)],
+            'email' => [
+                'required',
+                'string',
+                'email',
+                'max:255',
+                Rule::unique('users')->ignore($user->id),
+            ],
             'phone' => ['nullable', 'string', 'max:255'],
             'department' => ['nullable', 'string', 'max:255'],
             'semester' => ['nullable', 'string', 'max:255'],
