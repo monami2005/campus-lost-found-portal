@@ -48,7 +48,7 @@ try {
 
 if [ -z "$USER_COUNT" ] || [ "$USER_COUNT" -eq 0 ]; then
     echo "No users found in database. Running database seeders..."
-    php artisan db:seed --force
+    php artisan db:seed --class="Database\\Seeders\\DatabaseSeeder" --force
 else
     echo "Database contains $USER_COUNT user(s). Skipping seeding."
 fi
