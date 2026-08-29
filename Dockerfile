@@ -17,7 +17,8 @@ RUN apt-get update && apt-get install -y \
     bcmath \
     opcache
 
-# 2. Enable Apache mod_rewrite
+# 2. Disable conflicting Apache MPM modules and enable rewrite
+RUN a2dismod mpm_event mpm_worker || true
 RUN a2enmod rewrite
 
 # 3. Configure Apache DocumentRoot to point to /var/www/html/public
