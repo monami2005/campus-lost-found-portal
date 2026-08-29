@@ -19,10 +19,13 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 # 2. Configure Apache MPM
-# PHP Apache image needs exactly ONE MPM.
-RUN a2dismod mpm_event mpm_worker mpm_prefork || true \
+# Remove all conflicting MPM modules and enable only prefork
+RUN rm -f /etc/apache2/mods-enabled/mpm_event.* \
+          /etc/apache2/mods-enabled/mpm_worker.* \
+          /etc/apache2/mods-enabled/mpm_prefork.* \
     && a2enmod mpm_prefork \
-    && a2enmod rewrite
+    && a2enmod rewrite \
+    && apache2ctl -M | grep mpm
 
 # 3. Configure Apache DocumentRoot to point to Laravel public folder
 RUN sed -ri -e 's!/var/www/html!/var/www/html/public!g' \
